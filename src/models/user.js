@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class user extends Model {
     /**
@@ -11,16 +11,19 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.blog, { foreignKey: "userId" });
     }
   }
-  user.init({
-    username: DataTypes.STRING,
-    email: DataTypes.STRING,
-    phone: DataTypes.STRING,
-    password: DataTypes.STRING,
-    imgProfile: DataTypes.STRING,
-    isVerified: { type: DataTypes.BOOLEAN, defaultValue: false }
-  }, {
-    sequelize,
-    modelName: 'user',
-  });
+  user.init(
+    {
+      username: { type: DataTypes.STRING, unique: true, allowNull: false },
+      email: { type: DataTypes.STRING, unique: true, allowNull: false },
+      phone: { type: DataTypes.STRING, unique: true, allowNull: false },
+      password: { type: DataTypes.STRING, allowNull: false },
+      imgProfile: { type: DataTypes.STRING },
+      isVerified: { type: DataTypes.BOOLEAN, defaultValue: false },
+    },
+    {
+      sequelize,
+      modelName: "user",
+    }
+  );
   return user;
 };

@@ -14,11 +14,13 @@ const verifyToken = (req, res, next) => {
         if (token === null || !token) return res.status(401).send("Access denied");
 
         let verifiedUser = jwt.verify(token, process.env.JWT_KEY);
-        if (!verifiedUser) return res.status(401).send("Account not verified");
+        if (!verifiedUser) return res.status(401).send("Unauthorized request");
 
         req.user = verifiedUser;
         next();
     } catch (error) {
-
+        return res.status(400).send("Invalid Token/Token Expired");
     }
 }
+
+module.exports = { verifyToken };
